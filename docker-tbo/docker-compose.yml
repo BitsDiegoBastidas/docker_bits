@@ -1,0 +1,114 @@
+version: '3.1'
+services:
+  db:
+    container_name: tbo_db
+    image: mysql:5.7
+    command: 
+      - --default-authentication-plugin=mysql_native_password
+      - --innodb-buffer-pool-size=1G
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_general_ci
+    environment:
+      MYSQL_DATABASE: $BD_NAME
+      MYSQL_USER: $BD_PASSWORD_USER
+      MYSQL_PASSWORD: $BD_PASSWORD_ROOT
+      MYSQL_ROOT_PASSWORD: $BD_PASSWORD_ROOT 
+    volumes:
+      - ./dump:/docker-entrypoint-initdb.d
+      - tbo_db:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - default
+    deploy:
+        resources:
+            limits:
+              memory: 1024M
+            reservations:
+              memory: 128M
+  tbo:
+    container_name: tbo_amazon_linux
+    depends_on:
+      - db
+    links: 
+          - db:db
+    volumes:
+      - $PATH_TO_REPO_TBO:/usr/share/nginx/html
+    image: tbo_amazon_linux
+    build: .
+    privileged: true
+    ports:
+      - "80:80"
+      - "443:443"
+    networks:
+      - default
+    dns: 
+      - "8.8.8.8"
+      - "1.1.1.1"
+    command: /usr/sbin/init && systemctl restart php-fpm.service && systemctl restart nginx.service && cd /usr/share/nginx/html 
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+      # extra host for environment DEV local
+
+      - "bo.tbo:127.0.0.1"
+      - "co.tbo:127.0.0.1"
+      - "gt.tbo:127.0.0.1"
+      - "hn.tbo:127.0.0.1"
+      - "ni.tbo:127.0.0.1"
+      - "pa.tbo:127.0.0.1"
+      - "py.tbo:127.0.0.1"
+      - "sv.tbo:127.0.0.1"
+
+      # extra host for environment STG, UAT, PROD it only works if the hosts file of the main machine has the urls pointing to the domains of each environment
+
+      # extra host for environment STG local - Only work if host 
+
+      - "tigob2bselfcare-stg-$VERSION_ENV-bo.tigocloud.net:127.0.0.1"
+      - "tigob2bselfcare-stg-$VERSION_ENV-co.tigocloud.net:127.0.0.1"
+      - "tigob2bselfcare-stg-$VERSION_ENV-gt.tigocloud.net:127.0.0.1"
+      - "tigob2bselfcare-stg-$VERSION_ENV-hn.tigocloud.net:127.0.0.1"
+      - "tigob2bselfcare-stg-$VERSION_ENV-ni.tigocloud.net:127.0.0.1"
+      - "tigob2bselfcare-stg-$VERSION_ENV-pa.tigocloud.net:127.0.0.1"
+      - "tigob2bselfcare-stg-$VERSION_ENV-py.tigocloud.net:127.0.0.1"
+      - "tigob2bselfcare-stg-$VERSION_ENV-sv.tigocloud.net:127.0.0.1"
+
+      # extra host for environment UAT local
+
+      - "tigob2bselfcare-uat-$VERSION_ENV-bo.tigocloud.net:127.0.0.1"
+      - "tigob2bselfcare-uat-$VERSION_ENV-co.tigocloud.net:127.0.0.1"
+      - "tigob2bselfcare-uat-$VERSION_ENV-gt.tigocloud.net:127.0.0.1"
+      - "tigob2bselfcare-uat-$VERSION_ENV-hn.tigocloud.net:127.0.0.1"
+      - "tigob2bselfcare-uat-$VERSION_ENV-ni.tigocloud.net:127.0.0.1"
+      - "tigob2bselfcare-uat-$VERSION_ENV-pa.tigocloud.net:127.0.0.1"
+      - "tigob2bselfcare-uat-$VERSION_ENV-py.tigocloud.net:127.0.0.1"
+      - "tigob2bselfcare-uat-$VERSION_ENV-sv.tigocloud.net:127.0.0.1"
+
+      # extra host for environment PROD local
+      - "micuenta.tigobusiness.com.bo:127.0.0.1"
+      - "micuentab2b.tigo.com.co:127.0.0.1"
+      - "www.tbo.com.gt:127.0.0.1"
+      - "www.micuenta.tigobusiness.com.hn:127.0.0.1"
+      - "mitigobusiness.tigo.com.ni:127.0.0.1"
+      - "mitigobusiness.tigo.com.pa:127.0.0.1"
+      - "micuentabusiness.tigo.com.py:127.0.0.1"
+      - "micuentab2b.tigo.com.sv:127.0.0.1"
+
+    hostname: tbo
+    domainname: tbo
+    deploy:
+        resources:
+            limits:
+              memory: 1024M
+            reservations:
+              memory: 128M
+  phpmyadmin:
+      image: phpmyadmin/phpmyadmin
+      links: 
+          - db:db
+      ports:
+          - 8000:80
+      environment:
+          MYSQL_PASSWORD: $BD_PASSWORD_USER
+          MYSQL_ROOT_PASSWORD: $BD_PASSWORD_ROOT 
+volumes:
+  tbo_db:

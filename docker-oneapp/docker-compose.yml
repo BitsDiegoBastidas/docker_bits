@@ -1,0 +1,26 @@
+version: '3'
+services:
+  db_COUNTRY:
+    container_name: oneapp_COUNTRY_db
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: 12345678
+      MYSQL_DATABASE: oneapp_COUNTRY
+    volumes:
+      - oneapp_COUNTRY:/var/lib/mysql
+    ports:
+      - "3307:3306"
+  oneapp_COUNTRY:
+    container_name: oneapp_COUNTRY_amazon_linux
+    depends_on:
+      - db_COUNTRY
+    volumes:
+      - .:/usr/share/nginx/html
+    image: oneapp_COUNTRY_project
+    build: .
+    privileged: true
+    ports:
+      - "8080:80"
+    command: /usr/sbin/init && systemctl restart php-fpm.service && systemctl restart nginx.service
+volumes:
+  oneapp_COUNTRY:

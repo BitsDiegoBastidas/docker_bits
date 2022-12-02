@@ -1,0 +1,43 @@
+127.0.0.1   localhost
+
+# ENTORNO LOCAL
+127.0.0.1	bo.tbo
+127.0.0.1   co.tbo
+127.0.0.1   gt.tbo
+127.0.0.1   hn.tbo
+127.0.0.1   ni.tbo
+127.0.0.1   pa.tbo
+127.0.0.1   py.tbo
+127.0.0.1   sv.tbo
+
+# ENTORNO LOCAL EMULANDO STG
+
+127.0.0.1   tigob2bselfcare-stg-v2-bo.tigocloud.net
+127.0.0.1   tigob2bselfcare-stg-v2-co.tigocloud.net
+127.0.0.1   tigob2bselfcare-stg-v2-gt.tigocloud.net
+127.0.0.1   tigob2bselfcare-stg-v2-hn.tigocloud.net
+127.0.0.1   tigob2bselfcare-stg-v2-ni.tigocloud.net
+127.0.0.1   tigob2bselfcare-stg-v2-pa.tigocloud.net
+127.0.0.1   tigob2bselfcare-stg-v2-py.tigocloud.net
+127.0.0.1   tigob2bselfcare-stg-v2-sv.tigocloud.net
+
+# ENTORNO LOCAL EMULANDO UAT
+
+127.0.0.1   tigob2bselfcare-uat-v2-bo.tigocloud.net
+127.0.0.1   tigob2bselfcare-uat-v2-co.tigocloud.net
+127.0.0.1   tigob2bselfcare-uat-v2-gt.tigocloud.net
+127.0.0.1   tigob2bselfcare-uat-v2-hn.tigocloud.net
+127.0.0.1   tigob2bselfcare-uat-v2-ni.tigocloud.net
+127.0.0.1   tigob2bselfcare-uat-v2-pa.tigocloud.net
+127.0.0.1   tigob2bselfcare-uat-v2-py.tigocloud.net
+127.0.0.1   tigob2bselfcare-uat-v2-sv.tigocloud.net
+
+# ENTORNO LOCAL EMULANDO PROD
+127.0.0.1   micuenta.tigobusiness.com.bo
+127.0.0.1   micuentab2b.tigo.com.co
+127.0.0.1   www.tbo.com.gt
+127.0.0.1	www.micuenta.tigobusiness.com.hn
+127.0.0.1   mitigobusiness.tigo.com.ni
+127.0.0.1   mitigobusiness.tigo.com.pa
+127.0.0.1   micuentabusiness.tigo.com.py
+127.0.0.1   micuentab2b.tigo.com.sv
